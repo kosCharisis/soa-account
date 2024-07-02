@@ -9,13 +9,14 @@ public class UserDetails extends AbstractEntity implements IdentifiableEntity {
     }
 
     public UserDetails(String  uuid, String firstname, String lastname, String ssn) {
-        setUuid(uuid);
+        this.setUuid(uuid);
         this.firstname = firstname;
         this.lastname = lastname;
         this.ssn = ssn;
     }
 
     public UserDetails(UserDetails userDetails) {
+        setUuid(userDetails.getUuid());
         this.firstname = userDetails.getFirstname();
         this.lastname = userDetails.getLastname();
         this.ssn = userDetails.getSsn();
@@ -48,6 +49,7 @@ public class UserDetails extends AbstractEntity implements IdentifiableEntity {
     @Override
     public String toString() {
         return "UserDetails{" +
+                "uuid= " + getUuid() +
                 "firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", ssn='" + ssn + '\'' +
