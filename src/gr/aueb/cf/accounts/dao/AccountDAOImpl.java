@@ -28,32 +28,40 @@ public class AccountDAOImpl implements IAccountDAO {
         ac.setUuid(account.getUuid());
         ac.setUserDetails(account.getUserDetails());
         ac.setIban(account.getIban());
+        ac.setBalance(account.getBalance());
 
         return accountToReturn;
     }
 
     @Override
     public void delete(String uuid) {
-
+        accounts.removeIf(c -> c.getUuid().equals(uuid));
     }
 
     @Override
     public Account get(String uuid) {
-        return null;
+        return accounts.stream()
+                .filter(c -> c.getUuid().equals(uuid))
+                .findFirst()
+                .orElse(null);
     }
 
     @Override
     public List<Account> getAll() {
-        return null;
+        return new ArrayList<>(accounts);
     }
 
     @Override
     public boolean ibanExists(String iban) {
-        return false;
+        return accounts
+                .stream()
+                .anyMatch(c -> c.getIban().equals(iban));
     }
 
     @Override
     public boolean userUuidExists(String uuid) {
-        return false;
+        return accounts
+                .stream()
+                .anyMatch(c -> c.getUuid().equals(uuid));
     }
 }
