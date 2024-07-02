@@ -2,8 +2,8 @@ package gr.aueb.cf.accounts.model;
 
 public class Account extends AbstractEntity implements IdentifiableEntity {
     private UserDetails userDetails;
-    public String iban;
-    public double balance;
+    private String iban;
+    private double balance;
 
     public Account() {
     }
