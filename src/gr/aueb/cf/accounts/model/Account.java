@@ -8,10 +8,17 @@ public class Account extends AbstractEntity implements IdentifiableEntity {
     public Account() {
     }
 
-    public Account(UserDetails userDetails, String iban, double balance) {
+    public Account(String uuid,UserDetails userDetails, String iban, double balance) {
+        this.setUuid(uuid);
         this.userDetails = new UserDetails(userDetails);
         this.iban = iban;
         this.balance = balance;
+    }
+
+    public Account (Account account) {
+        this.setUuid(account.getUuid());
+        this.userDetails = new UserDetails(account.getUserDetails());
+        this.iban = account.getIban();
     }
 
     public UserDetails getUserDetails() {
@@ -41,6 +48,7 @@ public class Account extends AbstractEntity implements IdentifiableEntity {
     @Override
     public String toString() {
         return "Account{" +
+                "uuid=" + getUuid() +
                 "userDetails=" + userDetails +
                 ", iban='" + iban + '\'' +
                 ", balance=" + balance +
@@ -54,7 +62,6 @@ public class Account extends AbstractEntity implements IdentifiableEntity {
 
         Account account = (Account) o;
 
-        if (Double.compare(getBalance(), account.getBalance()) != 0) return false;
         if (getUserDetails() != null ? !getUserDetails().equals(account.getUserDetails()) : account.getUserDetails() != null)
             return false;
         return getIban() != null ? getIban().equals(account.getIban()) : account.getIban() == null;
@@ -62,12 +69,8 @@ public class Account extends AbstractEntity implements IdentifiableEntity {
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = getUserDetails() != null ? getUserDetails().hashCode() : 0;
+        int result = getUserDetails() != null ? getUserDetails().hashCode() : 0;
         result = 31 * result + (getIban() != null ? getIban().hashCode() : 0);
-        temp = Double.doubleToLongBits(getBalance());
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
         return result;
     }
 }
