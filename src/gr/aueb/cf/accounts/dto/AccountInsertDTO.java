@@ -4,13 +4,16 @@ public class AccountInsertDTO extends BaseDTO {
     private UserDetailsInsertDTO userDetailsInsertDTO;
     private String iban;
 
+    private double balance;
+
     public AccountInsertDTO() {
     }
 
-    public AccountInsertDTO(String uuid, UserDetailsInsertDTO userDetailsInsertDTO, String iban) {
+    public AccountInsertDTO(String uuid, UserDetailsInsertDTO userDetailsInsertDTO, String iban, double balance) {
         setUuid(uuid);
         this.userDetailsInsertDTO = userDetailsInsertDTO;
         this.iban = iban;
+        this.balance = balance;
     }
 
     public UserDetailsInsertDTO getUserDetailsInsertDTO() {
@@ -27,5 +30,13 @@ public class AccountInsertDTO extends BaseDTO {
 
     public void setIban(String iban) {
         this.iban = iban;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }

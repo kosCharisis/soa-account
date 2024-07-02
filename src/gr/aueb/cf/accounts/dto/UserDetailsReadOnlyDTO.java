@@ -1,15 +1,14 @@
 package gr.aueb.cf.accounts.dto;
 
-public class UserDetailsUpdateDTO extends BaseDTO {
+public class UserDetailsReadOnlyDTO extends BaseDTO {
     private String firstname;
     private String lastname;
     private String ssn;
 
-    public UserDetailsUpdateDTO() {
-
+    public UserDetailsReadOnlyDTO() {
     }
 
-    public UserDetailsUpdateDTO(String uuid, String firstname, String lastname, String ssn) {
+    public UserDetailsReadOnlyDTO(String uuid, String firstname, String lastname, String ssn) {
         setUuid(uuid);
         this.firstname = firstname;
         this.lastname = lastname;
