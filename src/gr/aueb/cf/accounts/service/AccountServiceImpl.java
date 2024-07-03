@@ -35,10 +35,11 @@ public class AccountServiceImpl implements IAccountService {
             if(dao.userUuidExists(account.getUuid())) {
                 throw new UserUuidAlreadyExistsException(account);
             }
-
+            //logging for success
             return dao.insert(account);
         } catch (IbanAlreadyExistsException | UserUuidAlreadyExistsException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            //logging for failure
             throw e;
         }
     }
@@ -62,54 +63,105 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Account updateAccount(String uuid, AccountUpdateDTO dto)
+    public Account updateAccount(String uuid, AccountUpdateDTO newdto)
             throws IbanAlreadyExistsException, UserUuidAlreadyExistsException, AccountNotFoundException {
         Account account;
 
         try {
-            account = mapAccountFromUpdateDTO(dto);
+            account = mapAccountFromUpdateDTO(newdto);
 
             if(!dao.userUuidExists(uuid)) {
                 throw new AccountNotFoundException(uuid);
             }
 
-            if(dao.ibanExists(account.getIban())) {
+            Account oldAccount = dao.get(uuid);
+
+            if(dao.ibanExists(account.getIban()) && !oldAccount.getIban().equals(newdto.getIban()))  {
                 throw new IbanAlreadyExistsException(account);
             }
 
-            if(dao.userUuidExists(account.getUuid())) {
+            if(dao.userUuidExists(account.getUuid()) && !oldAccount.getUuid().equals(newdto.getUuid())) {
                 throw new UserUuidAlreadyExistsException(account);
             }
-
+            //logging
             return dao.update(uuid, account);
         } catch (IbanAlreadyExistsException | UserUuidAlreadyExistsException | AccountNotFoundException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            //logging
             throw e;
         }
     }
 
     @Override
     public void deleteAccountByUuid(String uuid) throws AccountNotFoundException {
-
+        try {
+            if(!dao.userUuidExists(uuid)) {
+                throw new AccountNotFoundException(uuid);
+            }
+            //logging
+            dao.delete(uuid);
+        } catch (AccountNotFoundException e) {
+            //e.printStackTrace();
+            //logging
+            throw e;
+        }
     }
 
     @Override
-    public void deleteAccountByIban(String iban) throws AccountNotFoundException {
+    public void deleteAccountByIban(String iban)
+            throws AccountNotFoundException {
+        try {
+            if(!dao.ibanExists(iban)) {
+                throw new AccountNotFoundException(iban);
+            }
+            //logging
+            dao.delete(iban);
+        } catch (AccountNotFoundException e) {
+            //e.printStackTrace();
+            //logging
+            throw e;
+        }
 
     }
 
     @Override
     public Account getAccountByUuid(String uuid) throws AccountNotFoundException {
-        return null;
+        Account account;
+
+        try {
+            account = dao.get(uuid);
+            if (account == null) {
+                throw new AccountNotFoundException(uuid);
+            }
+            //logging
+            return account;
+        } catch (AccountNotFoundException e) {
+            //e.printStackTrace();
+            //logging
+            throw e;
+        }
     }
 
     @Override
     public Account getAccountByIban(String iban) throws AccountNotFoundException {
-        return null;
+        Account account;
+
+        try {
+            account = dao.get(iban);
+            if (account == null) {
+                throw new AccountNotFoundException(iban);
+            }
+            //logging
+            return account;
+        } catch (AccountNotFoundException e) {
+            //e.printStackTrace();
+            //logging
+            throw e;
+        }
     }
 
     @Override
     public List<Account> getAllAccounts() {
-        return null;
+        return dao.getAll(); //Collections.unmodifiableList(dao.getAll());
     }
 }
