@@ -63,12 +63,12 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Account updateAccount(String uuid, AccountUpdateDTO newdto)
+    public Account updateAccount(String uuid, AccountUpdateDTO newDto)
             throws IbanAlreadyExistsException, UserUuidAlreadyExistsException, AccountNotFoundException {
         Account account;
 
         try {
-            account = mapAccountFromUpdateDTO(newdto);
+            account = mapAccountFromUpdateDTO(newDto);
 
             if(!dao.userUuidExists(uuid)) {
                 throw new AccountNotFoundException(uuid);
@@ -76,11 +76,11 @@ public class AccountServiceImpl implements IAccountService {
 
             Account oldAccount = dao.get(uuid);
 
-            if(dao.ibanExists(account.getIban()) && !oldAccount.getIban().equals(newdto.getIban()))  {
+            if(dao.ibanExists(account.getIban()) && !oldAccount.getIban().equals(newDto.getIban()))  {
                 throw new IbanAlreadyExistsException(account);
             }
 
-            if(dao.userUuidExists(account.getUuid()) && !oldAccount.getUuid().equals(newdto.getUuid())) {
+            if(dao.userUuidExists(account.getUuid()) && !oldAccount.getUuid().equals(newDto.getUuid())) {
                 throw new UserUuidAlreadyExistsException(account);
             }
             //logging

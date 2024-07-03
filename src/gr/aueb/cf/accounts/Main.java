@@ -51,14 +51,14 @@ public class Main {
         switch (choice) {
             case "1":
                 account = getAccount();
-                insertAccount (account);
+                insertAccounts(account);
                 break;
             case "2":
                 System.out.println("Παρακαλώ δώστε το uuid του λογαριασμού προς ενημέρωση");
                 uuid = scanner.next();
                 System.out.println("Παρακάλω εισάγετε τα στοιχεία του νέου λογαριασμού");
                 account = getAccount();
-                updateAccount(uuid, account);
+                updateAccounts(uuid, account);
                 break;
             case "3":
                 System.out.println("Παρακαλώ δώστε το uuid του λογαριασμού προς διαγραφή");
@@ -89,7 +89,7 @@ public class Main {
         accounts.forEach(System.out::println);
     }
 
-    public static void insertAccount(Account account) {
+    public static void insertAccounts(Account account) {
         try {
             AccountInsertDTO insertDTO = mapToAccountInsertDto (account);
             Account mc = service.insertAccount(insertDTO);
@@ -99,7 +99,7 @@ public class Main {
         }
     }
 
-    public static void updateAccount(String uuid, Account account) {
+    public static void updateAccounts(String uuid, Account account) {
         try {
             AccountUpdateDTO updateDTO = mapToAccountUpdateDto(account);
             Account mc = service.updateAccount(uuid, updateDTO);
@@ -188,7 +188,7 @@ public class Main {
     }
 
     private static UserDetailsReadOnlyDTO mapToUserDetailsReadOnlyDto(UserDetails userDetails) {
-        return new UserDetailsReadOnlyDTO(userDetails.getUuid(), userDetails.getFirstname(), userDetails.getLastname(),userDetails.getSsn());
+        return new UserDetailsReadOnlyDTO(userDetails.getUuid(), userDetails.getFirstname(), userDetails.getLastname(), userDetails.getSsn());
     }
 
     private static AccountReadOnlyDTO mapToAccountReadOnlyDto(Account account) {
